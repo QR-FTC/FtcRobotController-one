@@ -30,7 +30,7 @@ public class RocketLeagueMovement extends LinearOpMode {
         while (opModeIsActive()) {
             double y = -gamepad1.right_trigger; // Remember, Y stick value is reversed, Move Forward
             double minus_y = gamepad1.left_trigger; //Move Backward
-            double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
+            double x = -gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
             double rx = gamepad1.right_stick_x; //turning joystick
 
             // Denominator is the largest motor power (absolute value) or 1
@@ -38,9 +38,9 @@ public class RocketLeagueMovement extends LinearOpMode {
             // but only if at least one is out of the range [-1, 1]
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx) + Math.abs(minus_y), 1);
             double frontLeftPower = (y + x + rx + minus_y) / denominator;
-            double backLeftPower = (y - x + rx + minus_y) / denominator;
-            double frontRightPower = (y - x - rx + minus_y) / denominator;
-            double backRightPower = (y + x - rx + minus_y) / denominator;
+            double backLeftPower = (y - rx + x + minus_y) / denominator;
+            double frontRightPower = (y - rx - x + minus_y) / denominator;
+            double backRightPower = (y + rx - x + minus_y) / denominator;
 
             frontLeftMotor.setPower(frontLeftPower);
             backLeftMotor.setPower(backLeftPower);
